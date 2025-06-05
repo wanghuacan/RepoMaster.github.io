@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>RepoMaster</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://kit.fontawesome.com/f8ddf9854a.js" crossorigin="anonymous"></script>
+  <meta charset="utf-8">
+  <meta name="description" content="Autonomous Exploration and Understanding of GitHub Repositories for Complex Task Solving">
+  <meta name="keywords" content="RepoMaster, GitHub, Repository, AI Agent, Code Understanding, Tool Ecosystem, artificial intelligence, AI, AGI">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RepoMaster: Autonomous Exploration and Understanding of GitHub Repositories for Complex Task Solving</title>
+
+  <link rel="icon" href="./static/images/RepoMaster-logo.png">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  
+  <style>
+    .publication-title {
+      color: #2c3e50;
+    }
+    .publication-subtitle {
+      color: #34495e;
+    }
+    
+    /* Author color styles */
+    .author-block a.red {
+      color: #e74c3c !important;
+      font-weight: bold;
+    }
+    .author-block a.blue {
+      color: #3498db !important;  
+      font-weight: bold;
+    }
+    .author-block a.green {
+      color: #27ae60 !important;
+      font-weight: bold;
+    }
+    .author-block a.orange {
+      color: #f39c12 !important;
+      font-weight: bold;
+    }
+    
+    /* Institution triangles */
+    .triangle-bigai::before {
+      content: "▶";
+      color: #e74c3c;
+      margin-right: 5px;
+      font-weight: bold;
+    }
+    .triangle-openai::before {
+      content: "▶";
+      color: #3498db;
+      margin-right: 5px;
+      font-weight: bold;
+    }
+    .triangle-stanford::before {
+      content: "▶";
+      color: #27ae60;
+      margin-right: 5px;
+      font-weight: bold;
+    }
+    .triangle-mit::before {
+      content: "▶";
+      color: #f39c12;
+      margin-right: 5px;
+      font-weight: bold;
+    }
+    
+    .achievement-card {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      margin-bottom: 1rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .achievement-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .achievement-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .highlight-text {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: bold;
+    }
+    
+    .innovation-card {
+      background: #f8f9fa;
+      border-left: 4px solid #667eea;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .innovation-card:hover {
+      background: #e9ecef;
+      transform: translateX(5px);
+    }
+    
+    .problem-item {
+      background: #fff5f5;
+      border: 1px solid #fed7d7;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .problem-item:hover {
+      border-color: #fc8181;
+      box-shadow: 0 5px 15px rgba(252, 129, 129, 0.1);
+    }
+    
+    .results-table {
+      width: 100%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    
+    .results-table th, .results-table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+    
+    .results-table th {
+      background-color: #667eea;
+      color: white;
+      font-weight: bold;
+    }
+    
+    .mle-bench-row {
+      background-color: #e8f5e9;
+    }
+    
+    .git-task-row {
+      background-color: #f1fafb;
+    }
+    
+    .comparison-row {
+      background-color: #fff8e5;
+    }
+    
+    .button-group {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+    
+    .toggle-button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      margin: 5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .mle-bench-btn {
+      background-color: #e8f5e9;
+      color: #2d5a2d;
+    }
+    
+    .git-task-btn {
+      background-color: #f1fafb;
+      color: #1e3a3a;
+    }
+    
+    .comparison-btn {
+      background-color: #fff8e5;
+      color: #5a4d2d;
+    }
+    
+    .show-all-btn {
+      background-color: #667eea;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title is-bold">
+              <i class="fas fa-code-branch" style="font-size: 0.8em; vertical-align: middle; color: #667eea;"></i>
+              <span class="highlight-text" style="vertical-align: middle;">RepoMaster</span>
+            </h1>
+            <h2 class="subtitle is-3 publication-subtitle">
+              Autonomous Exploration and Understanding of GitHub Repositories for Complex Task Solving
+            </h2>
+            
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="#" class="red">Huacan Wang*</a><sup> 1,📧</sup>,
+              </span>
+              <span class="author-block">
+                <a href="#" class="blue">Ziyi Ni*</a><sup> 1,2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="#" class="green">Shuo Zhang*</a><sup> 3</sup>,
+              </span>
+              <span class="author-block">
+                <a href="#" class="orange">Shuo Lu</a><sup> 1,4</sup>,
+              </span>
+              <span class="author-block">
+                <a href="#" class="red">Sen Hu</a><sup> 5</sup>,
+              </span>
+              <span class="author-block">
+                <a href="#" class="blue">Ziyang He</a><sup> 6</sup>,
+              </span>
+              <span class="author-block">
+                <a href="#" class="green">Chen Hu</a><sup> 7</sup>,
+              </span>
+              <span class="author-block">
+                <a href="#" class="orange">Jiaye Lin</a><sup> 8</sup>,
+              </span>
+              <span class="author-block">
+                <a href="#" class="orange">Yifu Guo</a><sup> 9</sup>,
+              </span>              
+              <span class="author-block">
+                <a href="#" class="red">Yuntao Du</a><sup> 10,📧</sup>,
+              </span>
+              <span class="author-block">
+                <a href="#" class="blue">Pin Lyu</a><sup> 1,📧</sup>
+              </span>
+            </div>
+            
+            <div class="is-size-5 publication-authors">
+              <span class="author-block triangle-bigai"><sup>1 </sup>UCAS</span>
+              <span class="author-block triangle-openai"><sup>2 </sup>CASIA</span>
+              <span class="author-block triangle-stanford"><sup>3 </sup>BUPT</span>
+              <span class="author-block triangle-mit"><sup>4 </sup>NLPR</span>
+              <span class="author-block triangle-bigai"><sup>5 </sup>PKU</span>
+              <span class="author-block triangle-openai"><sup>6 </sup>NUS</span>
+              <span class="author-block triangle-stanford"><sup>7 </sup>StepFun</span>
+              <span class="author-block triangle-mit"><sup>8 </sup>THU</span>
+              <span class="author-block triangle-mit"><sup>9 </sup>SCNU</span>
+              <span class="author-block triangle-bigai"><sup>10 </sup>SDU</span>
+            </div>
+
+            <br>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">*Core Contributors</span><br>
+              <span class="author-block">📧Corresponding to:</span>
+              <span class="author-block">
+                <a href="mailto:wanghuacan17@mails.ucas.ac.cn">wanghuacan17@mails.ucas.ac.cn</a> | 
+                <a href="mailto:yuntaodu@sdu.edu.cn">yuntaodu@sdu.edu.cn</a> | 
+                <a href="mailto:pin.lv@ia.ac.cn">pin.lv@ia.ac.cn</a>
+              </span>
+            </div>
+            
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block" style="margin-right: 10px;">
+                  <a href="https://arxiv.org/pdf/2505.21577v1" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <span class="link-block" style="margin-right: 10px;">
+                  <a href="https://github.com/wanghuacan/RepoMaster" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+                <span class="link-block" style="margin-right: 10px;">
+                  <a href="#" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon" style="font-size:18px">🤗</span>
+                    <span>Dataset</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="#" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon has-text-white">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Slides</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <p style="font-size: 1.2em; text-align: left;">
+        <b>TL;DR:</b> Current AI agents are limited by their predefined tools. We introduce <span class="highlight-text">RepoMaster</span>, which enables an agent to autonomously master any GitHub repository to solve complex tasks, treating the entire GitHub as a live tool-hub.
+      </p>
+      <div class="content has-text-centered" style="margin-top: 2rem;">
+        <img src="./static/img/overview.png" alt="RepoMaster Overview" style="width: 80%; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+      </div>
+    </div>
+  </section>
+
+  <!-- Performance Achievements -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">🏆 Outstanding Performance</h2>
+      <div class="columns is-multiline">
+        <div class="column is-half">
+          <div class="achievement-card">
+            <div class="achievement-number">95.45%</div>
+            <div>Valid Submission Rate on MLE-Bench Lite</div>
+          </div>
+        </div>
+        <div class="column is-half">
+          <div class="achievement-card">
+            <div class="achievement-number">62.96%</div>
+            <div>Task Pass Rate on GitTaskBench (vs 24.07% OpenHands)</div>
+          </div>
+        </div>
+        <div class="column is-half">
+          <div class="achievement-card">
+            <div class="achievement-number">27.27%</div>
+            <div>Medal Acquisition Rate on MLE-Lite</div>
+          </div>
+        </div>
+        <div class="column is-half">
+          <div class="achievement-card">
+            <div class="achievement-number">95%</div>
+            <div>Token Consumption Reduction (vs OpenHands)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Abstract -->
+  <section class="columns is-centered has-text-centered" style="margin-top: 2rem;">
+    <div class="column" style="max-width: 57%; margin: 0 auto;">
+      <h2 class="title is-3">Abstract</h2>
+      <div class="content has-text-justified">
+        <p>
+          Current AI agents are constrained by manually predefined tool libraries and rigid function-calling protocols. We propose a paradigm-shifting vision: transforming GitHub's 28 million code repositories into the world's largest, most dynamic adaptive tool ecosystem. <b>RepoMaster</b> achieves this through revolutionary cognitive architecture that mimics human programmer patterns - building hierarchical understanding, strategic exploration, and intelligent component prioritization. Our system addresses four core technical bottlenecks: structural understanding deficiencies, context management failure, inefficient code reuse, and insufficient dependency tracking. Through hybrid hierarchical structure modeling, progressive context-aware exploration, and core component priority strategies, RepoMaster enables agents to automatically understand and interact with any repository without manual engineering. <b>RepoMaster</b> achieves a <b>95.45%</b> valid submission rate and <b>27.27%</b> medal acquisition rate on MLE-Lite benchmark, while on GitTaskBench, it improves task pass rate from <b>24.07%</b> to <b>62.96%</b> and reduces token consumption by <b>95%</b>. This breakthrough establishes the first truly scalable, self-evolving AI tool ecosystem that aggregates the collective wisdom of millions of global developers.
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <div class="content has-text-centered" style="margin: 2rem auto;">
+    <img src="./static/img/performance.png" alt="RepoMaster Performance Comparison" style="width: 50%; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+  </div>
+
+  <!-- Key Innovations -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">💡 Key Innovations</h2>
+      
+      <div class="innovation-card">
+        <h3 class="title is-4">🧠 Cognitive Architecture Revolution</h3>
+        <p>From shallow exploration to structured autonomous exploration, based on deep insights into human programmer cognitive patterns. Top developers never perform line-by-line code parsing, but adopt hierarchical abstraction understanding.</p>
+      </div>
+      
+      <div class="innovation-card">
+        <h3 class="title is-4">🔄 GitHub-as-a-Service Paradigm</h3>
+        <p>Automated repository-to-tool conversion pipeline with zero manual engineering required. Real-time capability acquisition and one-click MCP standardization.</p>
+      </div>
+      
+      <div class="innovation-card">
+        <h3 class="title is-4">🌐 Living Ecosystem</h3>
+        <p>Self-evolving tool ecosystem with unlimited capability expansion. As global developers contribute, the tool ecosystem automatically updates with the latest innovations.</p>
+      </div>
+      
+      <div class="innovation-card">
+        <h3 class="title is-4">⚡ Intelligence-Driven Efficiency</h3>
+        <p>Context-aware exploration and information selection strategies achieve outstanding performance while reducing token consumption by 95%, proving the paradigm advantage of strategic understanding over brute-force computation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results Section -->
+  <section class="hero is-light is-small">
+    <div class="hero-body has-text-centered">
+      <h1 class="title is-1">Experimental Results</h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="content" style="max-width: 1070px; margin: 0 auto; text-align: justify;">
+        <p>
+          We evaluate RepoMaster on two challenging benchmarks: <b>MLE-Lite</b> and <b>GitTaskBench</b>. Our experiments demonstrate significant improvements over state-of-the-art baselines including OpenHands, SWE-Agent, across multiple LLMs (GPT-4o, Claude 3.5, DeepSeek V3). On MLE-Lite, RepoMaster with Claude 3.5 achieves the highest performance with 95.45% valid submission rate and 27.27% medal acquisition rate. On GitTaskBench, RepoMaster significantly outperforms baselines in both task completion and token efficiency.
+        </p>
+      </div>
+      
+      <!-- Button controls -->
+      <div class="button-group">
+        <button class="toggle-button mle-bench-btn" onclick="showMLEBench()">MLE-Lite Results</button>
+        <button class="toggle-button git-task-btn" onclick="showGitTask()">GitTaskBench Results</button>
+        <button class="toggle-button show-all-btn" onclick="showAll()">Show All</button>
+      </div>
+
+      <!-- MLE-Lite Results Table -->
+      <table id="mle-table" class="results-table">
+        <thead>
+          <tr>
+            <th>Framework</th>
+            <th>LLM</th>
+            <th>Valid Submission (%)</th>
+            <th>Above Median (%)</th>
+            <th>Bronze (%)</th>
+            <th>Silver (%)</th>
+            <th>Gold (%)</th>
+            <th>Any Medal (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="mle-bench-row">
+            <td><strong>RepoMaster</strong></td>
+            <td>Claude 3.5</td>
+            <td><strong>95.45</strong></td>
+            <td><strong>95.45</strong></td>
+            <td><strong>45.45</strong></td>
+            <td><strong>4.55</strong></td>
+            <td><strong>0.00</strong></td>
+            <td><strong>27.27</strong></td>
+          </tr>
+          <tr class="mle-bench-row">
+            <td><strong>RepoMaster</strong></td>
+            <td>DeepSeek V3</td>
+            <td>95.45</td>
+            <td>86.36</td>
+            <td>36.36</td>
+            <td>4.55</td>
+            <td>4.55</td>
+            <td>22.73</td>
+          </tr>
+          <tr class="mle-bench-row">
+            <td><strong>RepoMaster</strong></td>
+            <td>GPT-4o</td>
+            <td>86.36</td>
+            <td>86.36</td>
+            <td>36.36</td>
+            <td>4.55</td>
+            <td>0.00</td>
+            <td>18.18</td>
+          </tr>
+          <tr class="comparison-row">
+            <td>SWE-Agent</td>
+            <td>GPT-4o</td>
+            <td>72.73</td>
+            <td>54.55</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+          </tr>
+          <tr class="comparison-row">
+            <td>SWE-Agent</td>
+            <td>Claude 3.5</td>
+            <td>54.55</td>
+            <td>50.00</td>
+            <td>13.64</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>4.55</td>
+          </tr>
+          <tr class="comparison-row">
+            <td>SWE-Agent</td>
+            <td>DeepSeek V3</td>
+            <td>54.55</td>
+            <td>36.36</td>
+            <td>4.55</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>4.55</td>
+          </tr>
+          <tr class="comparison-row">
+            <td>OpenHands</td>
+            <td>GPT-4o</td>
+            <td>50.00</td>
+            <td>45.45</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+          </tr>
+          <tr class="comparison-row">
+            <td>OpenHands</td>
+            <td>Claude 3.5</td>
+            <td>50.00</td>
+            <td>45.45</td>
+            <td>9.09</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>4.55</td>
+          </tr>
+          <tr class="comparison-row">
+            <td>OpenHands</td>
+            <td>DeepSeek V3</td>
+            <td>63.64</td>
+            <td>36.36</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+          </tr>          
+        </tbody>
+      </table>
+
+      <!-- GitTaskBench Results Table -->
+      <table id="git-table" class="results-table" style="display: none;">
+        <thead>
+          <tr>
+            <th>Framework</th>
+            <th>LLM</th>
+            <th>Execution Completion Rate (%) ↑</th>
+            <th>Task Pass Rate (%) ↑</th>
+            <th>#Total Tokens ↓</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="git-task-row">
+            <td><strong>RepoMaster</strong></td>
+            <td>Claude 3.5</td>
+            <td><strong>75.92</strong></td>
+            <td><strong>62.96</strong></td>
+            <td><strong>154k</strong></td>
+          </tr>
+          <tr class="git-task-row">
+            <td><strong>RepoMaster</strong></td>
+            <td>DeepSeek V3</td>
+            <td>61.11</td>
+            <td>44.44</td>
+            <td>255k</td>
+          </tr>
+          <tr class="git-task-row">
+            <td><strong>RepoMaster</strong></td>
+            <td>GPT-4o</td>
+            <td>48.14</td>
+            <td>40.74</td>
+            <td>250k</td>
+          </tr>
+          <tr class="comparison-row">
+            <td>OpenHands</td>
+            <td>Claude 3.5</td>
+            <td>48.15</td>
+            <td>24.07</td>
+            <td>3094k</td>
+          </tr>
+          <tr class="comparison-row">
+            <td>OpenHands</td>
+            <td>DeepSeek V3</td>
+            <td>42.59</td>
+            <td>16.67</td>
+            <td>662k</td>
+          </tr>
+          <tr class="comparison-row">
+            <td>OpenHands</td>
+            <td>GPT-4o</td>
+            <td>37.04</td>
+            <td>14.81</td>
+            <td>1195k</td>
+          </tr>
+          <tr class="comparison-row">
+            <td>SWE-Agent</td>
+            <td>Claude 3.5</td>
+            <td>44.44</td>
+            <td>14.81</td>
+            <td>330k</td>
+          </tr>          
+          <tr class="comparison-row">
+            <td>SWE-Agent</td>
+            <td>GPT-4o</td>
+            <td>29.6</td>
+            <td>39.26</td>
+            <td>308k</td>
+          </tr>
+          <tr class="comparison-row">
+            <td>SWE-Agent</td>
+            <td>DeepSeek V3</td>
+            <td>29.6</td>
+            <td>39.26</td>
+            <td>265k</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div class="content has-text-centered" style="margin-top: 2rem;">
+        <p style="font-size: 1.1em; font-weight: bold;">
+          You can click on the buttons above to filter results by benchmark.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Challenges -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">🎯 Technical Challenges Solved</h2>
+      <p class="has-text-centered" style="margin-bottom: 2rem;">Existing frameworks face four core technical bottlenecks that RepoMaster systematically addresses:</p>
+      
+      <div class="columns is-multiline">
+        <div class="column is-half">
+          <div class="problem-item">
+            <h4 class="title is-5" style="color: #c53030;">Structural Understanding Deficiencies</h4>
+            <p>Frameworks like OpenHands and SWE-Agent fail to effectively parse complex repository architectures, often drowning in irrelevant code while missing critical components.</p>
+          </div>
+        </div>
+        <div class="column is-half">
+          <div class="problem-item">
+            <h4 class="title is-5" style="color: #c53030;">Context Management Failure</h4>
+            <p>Faced with intricate dependency relationships and information density exceeding LLM context windows, existing agents lack strategic information management capabilities.</p>
+          </div>
+        </div>
+        <div class="column is-half">
+          <div class="problem-item">
+            <h4 class="title is-5" style="color: #c53030;">Inefficient Code Reuse</h4>
+            <p>Mainstream approaches rely on generating code from scratch, ignoring GitHub's rich ready-made solutions.</p>
+          </div>
+        </div>
+        <div class="column is-half">
+          <div class="problem-item">
+            <h4 class="title is-5" style="color: #c53030;">Insufficient Dependency Tracking</h4>
+            <p>Lack of mechanisms for deep repository structure understanding and fine-grained dependency tracking.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Architecture -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">🏗️ Technical Architecture</h2>
+      
+      <div class="content">
+        <h3 class="title is-4 has-text-centered">Three Layers of Technical Innovation</h3>
+        
+        <div class="columns">
+          <div class="column">
+            <div class="box" style="height: 100%; border-left: 4px solid #667eea;">
+              <h4 class="title is-5">1️⃣ Hybrid Hierarchical Structure Modeling</h4>
+              <p>Construct function call graphs, module dependency graphs, and hierarchical code trees for precise core component identification</p>
+            </div>
+          </div>
+          <div class="column">
+            <div class="box" style="height: 100%; border-left: 4px solid #667eea;">
+              <h4 class="title is-5">2️⃣ Progressive Context-Aware Exploration</h4>
+              <p>Dynamic navigation mechanisms based on structural connections, combined with intelligent information filtering to ensure interaction simplicity</p>
+            </div>
+          </div>
+          <div class="column">
+            <div class="box" style="height: 100%; border-left: 4px solid #667eea;">
+              <h4 class="title is-5">3️⃣ Core Component Priority Strategy</h4>
+              <p>Provide LLMs with filtered key elements rather than entire repository information redundancy</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact Section -->
+  <section class="section" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">
+    <div class="container is-max-desktop">
+      <div class="has-text-centered">
+        <h2 class="title is-2" style="color: white;">🚀 Transformative Impact</h2>
+        <p class="is-size-4" style="margin-bottom: 2rem;">
+          This is not merely an optimization of code reuse—this is a historic breakthrough in building the first truly scalable, self-evolving AI tool ecosystem that aggregates the collective wisdom of millions of global developers.
+        </p>
+        <div class="columns">
+          <div class="column">
+            <h3 class="title is-4" style="color: white;">28M+ Repositories</h3>
+            <p>Access to GitHub's entire ecosystem</p>
+          </div>
+          <div class="column">
+            <h3 class="title is-4" style="color: white;">Zero Manual Work</h3>
+            <p>Automatic tool conversion pipeline</p>
+          </div>
+          <div class="column">
+            <h3 class="title is-4" style="color: white;">Real-time Evolution</h3>
+            <p>Self-updating capability ecosystem</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BibTeX -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title is-3 has-text-centered">BibTeX</h2>
+      <pre><code>@article{wang2025repomaster,
+  title = {RepoMaster: Autonomous Exploration and Understanding of GitHub Repositories for Complex Task Solving},
+  author = {Huacan Wang and Ziyi Ni and Shuo Zhang and Shuo Lu and Sen Hu and Ziyang He and Chen Hu and Jiaye Lin and Yifu Guo and Yuntao Du and Pin Lyu},
+  journal = {arXiv preprint arXiv:2505.21577},
+  year = {2025}
+}</code></pre>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is adapted from <a href="https://mmke-bench.github.io/">MMKE-Bench</a>, licensed under a 
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    window.onload = function() {
+      showMLEBench();
+    };
+
+    function showMLEBench() {
+      document.getElementById('mle-table').style.display = '';
+      document.getElementById('git-table').style.display = 'none';
+    }
+
+    function showGitTask() {
+      document.getElementById('mle-table').style.display = 'none';
+      document.getElementById('git-table').style.display = '';
+    }
+
+    function showAll() {
+      document.getElementById('mle-table').style.display = '';
+      document.getElementById('git-table').style.display = '';
+    }
+  </script>
+</body>
+</html>
